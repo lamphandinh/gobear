@@ -15,7 +15,7 @@ public class LoadUserTask extends BaseTask<User> {
     private UserRepository userRepository;
 
     @Inject
-    protected LoadUserTask(UserRepository userRepo,
+    public LoadUserTask(UserRepository userRepo,
                         BatchExecutor batchExecutor, PostExecutionThread postExecutionThread) {
         super(batchExecutor, postExecutionThread);
         this.userRepository = userRepo;

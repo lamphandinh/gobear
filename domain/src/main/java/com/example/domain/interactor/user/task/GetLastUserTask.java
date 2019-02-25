@@ -4,24 +4,23 @@ import com.example.domain.executor.BatchExecutor;
 import com.example.domain.executor.PostExecutionThread;
 import com.example.domain.interactor.BaseTask;
 import com.example.domain.interactor.user.repo.UserRepository;
-import com.example.domain.model.User;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 
-public class GetLastUserTask extends BaseTask<User> {
+public class GetLastUserTask extends BaseTask<String> {
     private UserRepository userRepositoty;
 
     @Inject
-    protected GetLastUserTask(UserRepository userRepo,
+    public GetLastUserTask(UserRepository userRepo,
                            BatchExecutor batchExecutor, PostExecutionThread postExecutionThread) {
         super(batchExecutor, postExecutionThread);
         this.userRepositoty = userRepo;
     }
 
     @Override
-    protected Observable<User> buildUseCaseObservable() {
+    protected Observable<String> buildUseCaseObservable() {
         return null;
     }
 }

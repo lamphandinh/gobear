@@ -9,20 +9,26 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-public class UserUsecase extends BaseTask<User> {
+public class UserLoginUsecase extends BaseTask<User> {
     private GetLastUserTask getLastUserTask;
     private LoadUserTask loadUserTask;
+    private String userName, userPassword;
 
     @Inject
-    protected UserUsecase(GetLastUserTask getLastUserTask, LoadUserTask loadUserTask,
-                          BatchExecutor batchExecutor, PostExecutionThread postExecutionThread) {
+    public UserLoginUsecase(GetLastUserTask getLastUserTask, LoadUserTask loadUserTask,
+                            BatchExecutor batchExecutor, PostExecutionThread postExecutionThread) {
         super(batchExecutor, postExecutionThread);
         this.getLastUserTask = getLastUserTask;
         this.loadUserTask = loadUserTask;
     }
 
+    public void setUserData(String userName, String userPassword) {
+        this.userName = userName;
+        this.userPassword = userPassword;
+    }
+
     @Override
     protected Observable<User> buildUseCaseObservable() {
-        return null;
+        return Observable.just(null);
     }
 }
