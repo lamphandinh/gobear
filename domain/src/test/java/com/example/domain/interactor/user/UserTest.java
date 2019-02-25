@@ -38,7 +38,7 @@ public class UserTest extends BaseUnitTest {
         getLastUserTokenTask = new GetLastUserTokenTask(mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
         loadUserTask = new LoadUserTask(mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
         lastUserUsecase = new LastUserUsecase(getLastUserTokenTask, mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
-        userLoginUsecase = new UserLoginUsecase(getLastUserTokenTask, loadUserTask, mockBatchExecutor, mockPostExecutionThread);
+        userLoginUsecase = new UserLoginUsecase(loadUserTask, mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
     }
 
     @Test

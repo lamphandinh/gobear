@@ -28,7 +28,7 @@ public class LastUserUsecase extends BaseTask<User> {
         return getLastUserTokenTask.buildUseCaseObservable().flatMap(new Func1<String, Observable<User>>() {
             @Override
             public Observable<User> call(String lastUserToken) {
-                if (lastUserToken == null || !lastUserToken.equals("")) return Observable.just(null);
+                if (lastUserToken == null || lastUserToken.equals("")) return Observable.just(null);
                 return userRepository.getUserByToken(lastUserToken);
             }
         });
