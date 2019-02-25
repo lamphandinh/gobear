@@ -9,6 +9,7 @@ import com.example.gobear.GobearApp;
 import com.example.gobear.R;
 import com.example.gobear.ui.base.BaseActivity;
 import com.example.gobear.ui.login.LoginActivity;
+import com.example.gobear.ui.main.MainActivity;
 import com.example.gobear.ui.walkthough.WalkThroughActivity;
 import com.example.gobear.util.GobearAppCache;
 
@@ -59,7 +60,9 @@ public class SplashActivity extends BaseActivity<CheckLoginPresenter> implements
 
     @Override
     public void moveToMain() {
-
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+        finish();
     }
 
     @Override

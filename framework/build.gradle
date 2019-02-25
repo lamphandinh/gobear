@@ -74,7 +74,7 @@ dependencies {
     api libraries.okHttpLoggingInterceptor
 
     api libraries.room_runtime
-    annotationProcessor libraries.room_compiler
+    kapt libraries.room_compiler
     implementation libraries.room_rx
     testImplementation libraries.room_testing
 

@@ -9,6 +9,8 @@ import com.example.gobear.di.component.DaggerMainComponent;
 import com.example.gobear.di.component.MainComponent;
 import com.example.gobear.di.module.ApplicationModule;
 
+import org.jetbrains.annotations.TestOnly;
+
 public class GobearApp extends MultiDexApplication {
 
     private static GobearApp mApp;

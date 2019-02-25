@@ -15,6 +15,8 @@ import dagger.Component;
 )
 public interface MainComponent {
     void inject(CheckLoginPresenter presenter);
+
     void inject(LoginPresenter presenter);
+
     void inject(MainPresenter presenter);
 }
