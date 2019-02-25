@@ -1,0 +1,94 @@
+buildscript {
+    ext.kotlin_version = versions.kotlin
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion compiler.compileSDKVersion
+    buildToolsVersion compiler.buildToolsVersion
+    publishNonDefault true
+
+    defaultConfig {
+        minSdkVersion compiler.minSDKVersion
+        targetSdkVersion compiler.targetSDKVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            buildConfigField "boolean", "RELEASE", "false"
+            buildConfigField "String", "API_SERVER", '"https://api/"'
+        }
+        release {
+
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "boolean", "RELEASE", "true"
+            buildConfigField "String", "API_SERVER", '"https://api/"'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    compileOnly libraries.javaxAnnotation
+
+    kapt libraries.daggerCompiler
+
+    api libraries.dagger
+    api libraries.retrofit
+    api libraries.retrofitSimpleXmlConverter
+    api libraries.retrofitRxJavaAdapter
+    api libraries.rxAndroid
+
+    api libraries.okHttp
+    api libraries.okHttpLoggingInterceptor
+
+    api libraries.room_runtime
+    annotationProcessor libraries.room_compiler
+    implementation libraries.room_rx
+    testImplementation libraries.room_testing
+
+    api libraries.supportv4
+    api libraries.constraintLayout
+
+    api project(':domain')
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation libraries.junit
+    testImplementation libraries.robolectric
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
