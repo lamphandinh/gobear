@@ -24,7 +24,7 @@ public class LastUserUsecase extends BaseTask<User> {
     }
 
     @Override
-    protected Observable<User> buildUseCaseObservable() {
+    public Observable<User> buildUseCaseObservable() {
         return getLastUserTokenTask.buildUseCaseObservable().flatMap(new Func1<String, Observable<User>>() {
             @Override
             public Observable<User> call(String lastUserToken) {

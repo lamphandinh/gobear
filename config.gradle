@@ -40,6 +40,7 @@ ext.libraries = [
         mockito                 : "org.mockito:mockito-core:$versions.mockito",
         multidex                : "com.android.support:multidex:$versions.multidex",
         robolectric             : "org.robolectric:robolectric:$versions.robolectric",
+        robolectricMultidex     : "org.robolectric:shadows-multidex:$versions.robolectric",
         appcompatv7             : "com.android.support:appcompat-v7:$versions.supportLibrary",
         supportv4             : "com.android.support:support-compat:$versions.supportLibrary",
         supportdesign           : "com.android.support:design:$versions.supportLibrary",

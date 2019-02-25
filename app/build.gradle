@@ -94,6 +94,8 @@ dependencies {
     })
     testImplementation libraries.junit
     testImplementation libraries.robolectric
+    testImplementation libraries.robolectricMultidex
+    testImplementation libraries.mockito
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

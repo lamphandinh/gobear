@@ -1,4 +1,4 @@
-package com.example.gobear.ui;
+package com.example.gobear.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
