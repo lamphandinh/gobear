@@ -10,15 +10,15 @@ import javax.inject.Inject;
 import rx.Observable;
 
 public class UserLoginUsecase extends BaseTask<User> {
-    private GetLastUserTask getLastUserTask;
+    private GetLastUserTokenTask getLastUserTokenTask;
     private LoadUserTask loadUserTask;
     private String userName, userPassword;
 
     @Inject
-    public UserLoginUsecase(GetLastUserTask getLastUserTask, LoadUserTask loadUserTask,
+    public UserLoginUsecase(GetLastUserTokenTask getLastUserTokenTask, LoadUserTask loadUserTask,
                             BatchExecutor batchExecutor, PostExecutionThread postExecutionThread) {
         super(batchExecutor, postExecutionThread);
-        this.getLastUserTask = getLastUserTask;
+        this.getLastUserTokenTask = getLastUserTokenTask;
         this.loadUserTask = loadUserTask;
     }
 

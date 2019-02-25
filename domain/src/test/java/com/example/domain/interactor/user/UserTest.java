@@ -5,7 +5,7 @@ import com.example.domain.communication.error.WrongPassException;
 import com.example.domain.dsextension.Pair;
 import com.example.domain.interactor.BaseUnitTest;
 import com.example.domain.interactor.user.repo.UserRepository;
-import com.example.domain.interactor.user.task.GetLastUserTask;
+import com.example.domain.interactor.user.task.GetLastUserTokenTask;
 import com.example.domain.interactor.user.task.LastUserUsecase;
 import com.example.domain.interactor.user.task.LoadUserTask;
 import com.example.domain.interactor.user.task.UserLoginUsecase;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class UserTest extends BaseUnitTest {
     private UserLoginUsecase userLoginUsecase;
     private LastUserUsecase lastUserUsecase;
-    private GetLastUserTask getLastUserTask;
+    private GetLastUserTokenTask getLastUserTokenTask;
     private LoadUserTask loadUserTask;
 
     @Mock
@@ -35,10 +35,10 @@ public class UserTest extends BaseUnitTest {
     @Before
     public void setup() throws Exception {
         super.setup();
-        getLastUserTask = new GetLastUserTask(mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
+        getLastUserTokenTask = new GetLastUserTokenTask(mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
         loadUserTask = new LoadUserTask(mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
-        lastUserUsecase = new LastUserUsecase(getLastUserTask, mockBatchExecutor, mockPostExecutionThread);
-        userLoginUsecase = new UserLoginUsecase(getLastUserTask, loadUserTask, mockBatchExecutor, mockPostExecutionThread);
+        lastUserUsecase = new LastUserUsecase(getLastUserTokenTask, mockUserRepo, mockBatchExecutor, mockPostExecutionThread);
+        userLoginUsecase = new UserLoginUsecase(getLastUserTokenTask, loadUserTask, mockBatchExecutor, mockPostExecutionThread);
     }
 
     @Test
@@ -83,13 +83,13 @@ public class UserTest extends BaseUnitTest {
         when(mockUserRepo.getLastUserToken()).thenReturn(Observable.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
-                return "000000000";
+                return token;
             }
         }));
         when(mockUserRepo.getUserByToken(token)).thenReturn(Observable.fromCallable(new Callable<User>() {
             @Override
             public User call() throws Exception {
-                return new User("");
+                return null;
             }
         }));
         TestSubscriber<User> subscriber = subscribeOnTask(lastUserUsecase);
