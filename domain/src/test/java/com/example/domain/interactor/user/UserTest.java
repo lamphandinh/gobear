@@ -21,6 +21,8 @@ import java.util.concurrent.Callable;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class UserTest extends BaseUnitTest {
@@ -165,10 +167,45 @@ public class UserTest extends BaseUnitTest {
                 return new Pair<>(new User(name), token);
             }
         }));
+        when(mockUserRepo.saveLastUserToken(token)).thenReturn(Observable.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return true;
+            }
+        }));
         userLoginUsecase.setUserData(name, pass);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertNoErrors();
         User result = subscriber.getOnNextEvents().get(0);
         Assert.assertEquals(name, result.getName());
+    }
+
+    @Test
+    public void shouldSaveLastUserTokenIfLoginSuccess() {
+        final String name = "abc";
+        final String pass = "123456";
+        final String token = "fake_hash";
+        when(mockUserRepo.generateHashFromPassword(pass)).thenReturn(Observable.fromCallable(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return token;
+            }
+        }));
+        when(mockUserRepo.getUserByName(name)).thenReturn(Observable.fromCallable(new Callable<Pair<User, String>>() {
+            @Override
+            public Pair<User, String> call() throws Exception {
+                return new Pair<>(new User(name), token);
+            }
+        }));
+        when(mockUserRepo.saveLastUserToken(token)).thenReturn(Observable.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return true;
+            }
+        }));
+        userLoginUsecase.setUserData(name, pass);
+        TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
+        subscriber.assertNoErrors();
+        verify(mockUserRepo, times(1)).saveLastUserToken(token);
     }
 }

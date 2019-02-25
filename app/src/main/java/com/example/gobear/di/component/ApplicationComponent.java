@@ -7,6 +7,8 @@ import com.example.domain.executor.BatchExecutor;
 import com.example.domain.executor.PostExecutionThread;
 import com.example.domain.executor.RemoteIOExecutor;
 import com.example.domain.executor.UITaskExecutor;
+import com.example.framework.cache.CacheFile;
+import com.example.framework.db.GobearDatabase;
 import com.example.framework.di.module.DbModule;
 import com.example.framework.di.module.NetworkModule;
 import com.example.gobear.di.module.ApplicationModule;
@@ -32,4 +34,8 @@ public interface ApplicationComponent {
     Retrofit retrofit();
 
     EventBus eventBus();
+
+    GobearDatabase gobearDatabase();
+
+    CacheFile cacheFile();
 }

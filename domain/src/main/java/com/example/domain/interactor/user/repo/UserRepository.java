@@ -11,4 +11,5 @@ public interface UserRepository {
     Observable<Pair<User, String>> getUserByName(String name);
     Observable<User> getUserByToken(String token);
     Observable<Boolean> saveUser(User user, String passHash);
+    Observable<Boolean> saveLastUserToken(String passHash);
 }

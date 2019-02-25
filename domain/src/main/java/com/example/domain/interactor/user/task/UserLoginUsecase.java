@@ -60,6 +60,7 @@ public class UserLoginUsecase extends BaseTask<User> {
                     @Override
                     public User call(Boolean matchHash) {
                         if (!matchHash) throw new WrongPassException("");
+                        userRepository.saveLastUserToken(userStringPair.second).take(1).subscribe(BaseTask.EMPTY_SUBSCRIBER);
                         return userStringPair.first;
                     }
                 });
