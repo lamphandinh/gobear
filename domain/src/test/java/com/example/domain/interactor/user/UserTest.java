@@ -102,14 +102,14 @@ public class UserTest extends BaseUnitTest {
 
     @Test
     public void shouldValidateUserName() {
-        userLoginUsecase.setUserData("", "123456");
+        userLoginUsecase.setUserData("", "123456", true);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertError(IllegalArgumentException.class);
     }
 
     @Test
     public void shouldValidatePassword() {
-        userLoginUsecase.setUserData("abc", "");
+        userLoginUsecase.setUserData("abc", "", false);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertError(IllegalArgumentException.class);
     }
@@ -131,7 +131,7 @@ public class UserTest extends BaseUnitTest {
                 return new Pair<>(new User(""), "xxxxxx");
             }
         }));
-        userLoginUsecase.setUserData(name, pass);
+        userLoginUsecase.setUserData(name, pass, false);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertError(WrongPassException.class);
     }
@@ -145,7 +145,7 @@ public class UserTest extends BaseUnitTest {
                 return null;
             }
         }));
-        userLoginUsecase.setUserData(name, "123456");
+        userLoginUsecase.setUserData(name, "123456", false);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertError(UserNonRegisterException.class);
     }
@@ -173,7 +173,7 @@ public class UserTest extends BaseUnitTest {
                 return true;
             }
         }));
-        userLoginUsecase.setUserData(name, pass);
+        userLoginUsecase.setUserData(name, pass, false);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertNoErrors();
         User result = subscriber.getOnNextEvents().get(0);
@@ -181,7 +181,7 @@ public class UserTest extends BaseUnitTest {
     }
 
     @Test
-    public void shouldSaveLastUserTokenIfLoginSuccess() {
+    public void shouldSaveLastUserTokenIfLoginSuccessAndUserWantToRemember() {
         final String name = "abc";
         final String pass = "123456";
         final String token = "fake_hash";
@@ -203,9 +203,38 @@ public class UserTest extends BaseUnitTest {
                 return true;
             }
         }));
-        userLoginUsecase.setUserData(name, pass);
+        userLoginUsecase.setUserData(name, pass, true);
         TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
         subscriber.assertNoErrors();
         verify(mockUserRepo, times(1)).saveLastUserToken(token);
+    }
+
+    @Test
+    public void shouldNOTSaveLastUserTokenIfLoginSuccessAndUserDONTWantToRemember() {
+        final String name = "abc";
+        final String pass = "123456";
+        final String token = "fake_hash";
+        when(mockUserRepo.generateHashFromPassword(pass)).thenReturn(Observable.fromCallable(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return token;
+            }
+        }));
+        when(mockUserRepo.getUserByName(name)).thenReturn(Observable.fromCallable(new Callable<Pair<User, String>>() {
+            @Override
+            public Pair<User, String> call() throws Exception {
+                return new Pair<>(new User(name), token);
+            }
+        }));
+        when(mockUserRepo.saveLastUserToken(token)).thenReturn(Observable.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return true;
+            }
+        }));
+        userLoginUsecase.setUserData(name, pass, false);
+        TestSubscriber<User> subscriber = subscribeOnTask(userLoginUsecase);
+        subscriber.assertNoErrors();
+        verify(mockUserRepo, times(0)).saveLastUserToken(token);
     }
 }

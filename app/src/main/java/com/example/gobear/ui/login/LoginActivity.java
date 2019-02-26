@@ -28,4 +28,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     public Context getContext() {
         return this;
     }
+
+    @Override
+    public void loginSuccess() {
+
+    }
+
+    @Override
+    public void loginFailed(String errorMessage) {
+
+    }
 }
