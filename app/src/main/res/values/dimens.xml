@@ -8,4 +8,8 @@
     <dimen name="txt_large_22">22sp</dimen>
     <dimen name="txt_large_x">24sp</dimen>
     <dimen name="txt_large_xx">32sp</dimen>
+    <dimen name="indicator_size">8dp</dimen>
+    <dimen name="padding_small">5dp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
+    <dimen name="padding_large">20dp</dimen>
 </resources>
