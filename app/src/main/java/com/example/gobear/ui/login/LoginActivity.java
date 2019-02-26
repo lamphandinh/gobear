@@ -2,7 +2,9 @@ package com.example.gobear.ui.login;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.example.domain.model.User;
 import com.example.gobear.GobearApp;
 import com.example.gobear.R;
 import com.example.gobear.ui.base.BaseActivity;
@@ -30,7 +32,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(User user) {
 
     }
 
