@@ -42,6 +42,14 @@ public class FeedTest extends BaseUnitTest {
                     }
                 })
         );
+        when(mockFeedRepo.getNewestFeedsFromServer()).thenReturn(
+                Observable.fromCallable(new Callable<List<Feed>>() {
+                    @Override
+                    public List<Feed> call() throws Exception {
+                        return null;
+                    }
+                })
+        );
         TestSubscriber<List<Feed>> subscriber = subscribeOnTask(feedUseCase);
         subscriber.assertNoErrors();
         List<Feed> result = subscriber.getOnNextEvents().get(0);
@@ -65,13 +73,13 @@ public class FeedTest extends BaseUnitTest {
                 Observable.fromCallable(new Callable<List<Feed>>() {
                     @Override
                     public List<Feed> call() throws Exception {
-                        return expectLocalFeeds;
+                        return expectRemoteFeeds;
                     }
                 })
         );
         TestSubscriber<List<Feed>> subscriber = subscribeOnTask(feedUseCase);
         subscriber.assertNoErrors();
-        List<Feed> result = subscriber.getOnNextEvents().get(1);
+        List<Feed> result = subscriber.getOnNextEvents().get(0);
         Assert.assertEquals(expectRemoteFeeds.size(), result.size());
         Assert.assertEquals(expectRemoteFeeds.get(0).getTitle(), result.get(0).getTitle());
     }
