@@ -43,6 +43,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                         cbRememberMe.isChecked());
             }
         });
+        etUserName.requestFocus();
+        UIUtils.showKeyboard(etUserName);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     public void loginSuccess(User user) {
+        UIUtils.hideKeyboard(etUserName);
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
         finish();
@@ -71,6 +74,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     public void wrongPassword() {
+        UIUtils.showShortToast(R.string.error_wrong_pass);
         UIUtils.shakeView(tilPassword);
     }
 
