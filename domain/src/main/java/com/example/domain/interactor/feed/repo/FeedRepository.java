@@ -8,5 +8,6 @@ import rx.Observable;
 
 public interface FeedRepository {
     Observable<List<Feed>> getAllLocalFeeds();
+    Observable<Boolean> replaceAllLocalFeeds(List<Feed> feeds);
     Observable<List<Feed>> getNewestFeedsFromServer();
 }

@@ -1,4 +1,4 @@
-package com.example.gobear.util;
+package com.example.framework.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

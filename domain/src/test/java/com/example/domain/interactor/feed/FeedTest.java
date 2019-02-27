@@ -8,6 +8,7 @@ import com.example.domain.model.Feed;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.concurrent.Callable;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class FeedTest extends BaseUnitTest {
@@ -77,8 +79,17 @@ public class FeedTest extends BaseUnitTest {
                     }
                 })
         );
+        when(mockFeedRepo.replaceAllLocalFeeds(ArgumentMatchers.<Feed>anyList())).thenReturn(
+                Observable.fromCallable(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return true;
+                    }
+                })
+        );
         TestSubscriber<List<Feed>> subscriber = subscribeOnTask(feedUseCase);
         subscriber.assertNoErrors();
+        verify(mockFeedRepo).replaceAllLocalFeeds(ArgumentMatchers.<Feed>anyList());
         List<Feed> result = subscriber.getOnNextEvents().get(0);
         Assert.assertEquals(expectRemoteFeeds.size(), result.size());
         Assert.assertEquals(expectRemoteFeeds.get(0).getTitle(), result.get(0).getTitle());

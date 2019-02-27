@@ -5,12 +5,14 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.example.framework.db.dao.FeedDao;
 import com.example.framework.db.dao.UserDao;
 import com.example.framework.db.model.DBUser;
 
 @Database(entities = {DBUser.class}, version = 1)
 public abstract class GobearDatabase extends RoomDatabase {
     public abstract UserDao UserDao();
+    public abstract FeedDao FeedDao();
     private static volatile GobearDatabase instance;
     public static GobearDatabase getInstance(final Context context) {
         if (instance == null) {

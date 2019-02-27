@@ -1,5 +1,7 @@
 package com.example.framework.di.module;
 
+import com.example.framework.api.feed.FeedApiService;
+
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
@@ -50,5 +52,11 @@ public class NetworkModule {
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(new Persister(new AnnotationStrategy())))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    FeedApiService provideFeedApiService(Retrofit retrofit) {
+        return retrofit.create(FeedApiService.class);
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.functions.Func1;
 import rx.functions.Func2;
 
 public class FeedUseCase extends BaseTask<List<Feed>> {
@@ -29,8 +30,11 @@ public class FeedUseCase extends BaseTask<List<Feed>> {
         return Observable.combineLatest(feedRepository.getAllLocalFeeds(), feedRepository.getNewestFeedsFromServer(),
                 new Func2<List<Feed>, List<Feed>, List<Feed>>() {
                     @Override
-                    public List<Feed> call(List<Feed> offlineFeeds, List<Feed> remoteFeeds) {
-                        if (remoteFeeds != null) return remoteFeeds;
+                    public List<Feed> call(List<Feed> offlineFeeds, final List<Feed> remoteFeeds) {
+                        if (remoteFeeds != null) {
+                            feedRepository.replaceAllLocalFeeds(remoteFeeds).take(1).subscribe(BaseTask.EMPTY_SUBSCRIBER);
+                            return remoteFeeds;
+                        }
                         return offlineFeeds;
                     }
                 });
