@@ -8,6 +8,7 @@ import com.example.gobear.di.component.DaggerApplicationComponent;
 import com.example.gobear.di.component.DaggerMainComponent;
 import com.example.gobear.di.component.MainComponent;
 import com.example.gobear.di.module.ApplicationModule;
+import com.facebook.stetho.Stetho;
 
 import org.jetbrains.annotations.TestOnly;
 
@@ -23,6 +24,7 @@ public class GobearApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mApp = this;
+        Stetho.initializeWithDefaults(this);
         initApplicationComponent();
     }
 

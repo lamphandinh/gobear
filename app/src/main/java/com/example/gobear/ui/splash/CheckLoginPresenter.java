@@ -1,7 +1,11 @@
 package com.example.gobear.ui.splash;
 
+import android.util.Log;
+
+import com.example.domain.interactor.user.task.DebugAddDefaultUserTask;
 import com.example.domain.interactor.user.task.LastUserUsecase;
 import com.example.domain.model.User;
+import com.example.gobear.BuildConfig;
 import com.example.gobear.ui.base.BasePresenter;
 import com.example.gobear.util.GobearAppCache;
 
@@ -12,6 +16,9 @@ import rx.Subscriber;
 public class CheckLoginPresenter extends BasePresenter<IFirstRouterView> {
     @Inject
     public LastUserUsecase lastUserUsecase;
+
+    @Inject
+    DebugAddDefaultUserTask debugAddDefaultUserTask;
 
     GobearAppCache gobearAppCache;
 
@@ -47,6 +54,28 @@ public class CheckLoginPresenter extends BasePresenter<IFirstRouterView> {
             mView.moveToLogin();
         } else {
             mView.moveToMain();
+        }
+    }
+
+    public void inputDebugData() {
+        if (gobearAppCache.isFirstTime()) {
+            debugAddDefaultUserTask.setupDefaultData(BuildConfig.DEFAULT_NAME, BuildConfig.DEFAULT_PASS);
+            executeTask(debugAddDefaultUserTask, new Subscriber<Boolean>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.d("TEST", "add default : " + e.getMessage());
+                }
+
+                @Override
+                public void onNext(Boolean aBoolean) {
+                    Log.d("TEST", "add default : " + aBoolean);
+                }
+            });
         }
     }
 }

@@ -9,10 +9,10 @@ import com.example.framework.db.model.DBUser;
 
 @Dao
 public interface UserDao {
-    @Query("SELECT * FROM DBUser where name = :name")
+    @Query("SELECT * FROM user where name = :name")
     DBUser findByName(String name);
 
-    @Query("SELECT * FROM DBUser WHERE hash = :hash")
+    @Query("SELECT * FROM user WHERE hash = :hash")
     DBUser findByHash(String hash);
 
     @Insert

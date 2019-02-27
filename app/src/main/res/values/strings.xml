@@ -2,4 +2,12 @@
     <string name="app_name">Gobear</string>
     <string name="skip">Skip</string>
     <string name="_continue">Continue</string>
+    <string name="walk_through_1">Step 1</string>
+    <string name="walk_through_2">Step 2</string>
+    <string name="walk_through_3">Step 3</string>
+    <string name="hint_username">name</string>
+    <string name="hint_password">password</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_remember_me">Remember Me</string>
+    <string name="error_login">Login Failed!</string>
 </resources>

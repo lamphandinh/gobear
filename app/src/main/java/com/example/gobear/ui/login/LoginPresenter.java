@@ -1,7 +1,9 @@
 package com.example.gobear.ui.login;
 
+import com.example.domain.communication.error.WrongPassException;
 import com.example.domain.interactor.user.task.UserLoginUsecase;
 import com.example.domain.model.User;
+import com.example.gobear.R;
 import com.example.gobear.ui.base.BasePresenter;
 
 import javax.inject.Inject;
@@ -41,7 +43,11 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     }
 
     public void handleLoginError(Throwable e) {
-        mView.loginFailed(e.getMessage());
+        if (e instanceof WrongPassException) {
+            mView.wrongPassword();
+        } else {
+            mView.loginFailed(mView.getContext().getString(R.string.error_login));
+        }
     }
 
     public void handleLoginSuccess(User user) {

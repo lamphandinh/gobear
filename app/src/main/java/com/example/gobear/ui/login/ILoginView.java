@@ -6,4 +6,5 @@ import com.example.gobear.ui.base.IBaseView;
 public interface ILoginView extends IBaseView {
     void loginSuccess(User user);
     void loginFailed(String errorMessage);
+    void wrongPassword();
 }

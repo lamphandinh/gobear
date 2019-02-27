@@ -1,5 +1,6 @@
 package com.example.gobear.presenter;
 
+import com.example.domain.communication.error.WrongPassException;
 import com.example.domain.model.User;
 import com.example.gobear.ui.login.ILoginView;
 import com.example.gobear.ui.login.LoginPresenter;
@@ -36,4 +37,9 @@ public class LoginPresenterTest {
         verify(mockLoginView).loginSuccess(user);
     }
 
+    @Test
+    public void testHandleWrongPassword() {
+        cut.handleLoginError(new WrongPassException("xxx"));
+        verify(mockLoginView).wrongPassword();
+    }
 }

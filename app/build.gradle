@@ -18,6 +18,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
 apply plugin: 'kotlin-android-extensions'
 
+def CONFIG = { k -> "\"${project.properties.get(k)}\"" }
+
 android {
     compileSdkVersion compiler.compileSDKVersion
     buildToolsVersion compiler.buildToolsVersion
@@ -56,6 +58,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "DEFAULT_NAME", CONFIG("DEFAULT_USER_NAME")
+            buildConfigField "String", "DEFAULT_PASS", CONFIG("DEFAULT_PASS")
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -87,6 +94,9 @@ dependencies {
     api libraries.supportdesign
     implementation libraries.cardView
     api libraries.glide
+
+    api libraries.stetho
+    api libraries.stetho_okhttp3
 
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {

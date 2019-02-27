@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.gobear.BuildConfig;
 import com.example.gobear.GobearApp;
 import com.example.gobear.R;
 import com.example.gobear.ui.base.BaseActivity;
@@ -14,7 +15,7 @@ import com.example.gobear.ui.walkthough.WalkThroughActivity;
 import com.example.gobear.util.GobearAppCache;
 
 public class SplashActivity extends BaseActivity<CheckLoginPresenter> implements IFirstRouterView {
-    private static final int SPLASH_TIME = 500;
+    private static final int SPLASH_TIME = BuildConfig.DEBUG ? 1000 : 500;
     private CheckLoginPresenter mPresenter;
     private Handler mHandler;
 
@@ -29,6 +30,9 @@ public class SplashActivity extends BaseActivity<CheckLoginPresenter> implements
                 mPresenter.checkLogin();
             }
         }, SPLASH_TIME);
+        if (BuildConfig.DEBUG) {
+            mPresenter.inputDebugData();
+        }
     }
 
     @Override
