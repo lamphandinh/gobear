@@ -1,9 +1,11 @@
 package com.example.framework.di.module;
 
+import com.example.domain.interactor.feed.repo.FeedRepository;
 import com.example.domain.interactor.user.repo.UserRepository;
 import com.example.framework.cache.CacheFile;
 import com.example.framework.db.GobearDatabase;
 import com.example.framework.di.scope.MainScope;
+import com.example.framework.service.feed.FeedRepositoryImpl;
 import com.example.framework.service.user.UserRepositoryImpl;
 
 import dagger.Module;
@@ -16,5 +18,11 @@ public class MainModule {
     @MainScope
     UserRepository provideUserRepository(GobearDatabase gobearDatabase, CacheFile cacheFile) {
         return new UserRepositoryImpl(gobearDatabase, cacheFile);
+    }
+
+    @Provides
+    @MainScope
+    FeedRepository provideFeedRepository(GobearDatabase gobearDatabase) {
+        return new FeedRepositoryImpl(gobearDatabase);
     }
 }
