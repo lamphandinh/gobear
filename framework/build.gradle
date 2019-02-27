@@ -91,4 +91,7 @@ dependencies {
     testImplementation libraries.robolectric
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    api libraries.stetho
+    api libraries.stetho_okhttp3
 }

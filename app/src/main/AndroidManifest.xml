@@ -33,6 +33,9 @@
         <activity android:name=".ui.main.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="behind" />
+        <activity android:name=".ui.detail.FeedDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

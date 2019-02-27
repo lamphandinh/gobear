@@ -3,7 +3,7 @@ package com.example.framework.api.feed;
 import retrofit2.http.GET;
 import rx.Observable;
 
-public class FeedApiService {
+public interface FeedApiService {
     @GET("/news/world/asia/rss.xml")
-    public Observable<FeedResponse> getFeeds();
+    public Observable<FeedResponse> getFeed();
 }

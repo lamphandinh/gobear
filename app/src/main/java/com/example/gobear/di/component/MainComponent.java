@@ -2,6 +2,7 @@ package com.example.gobear.di.component;
 
 import com.example.framework.di.module.MainModule;
 import com.example.framework.di.scope.MainScope;
+import com.example.gobear.ui.detail.FeedDetailPresenter;
 import com.example.gobear.ui.login.LoginPresenter;
 import com.example.gobear.ui.main.MainPresenter;
 import com.example.gobear.ui.splash.CheckLoginPresenter;
@@ -19,4 +20,6 @@ public interface MainComponent {
     void inject(LoginPresenter presenter);
 
     void inject(MainPresenter presenter);
+
+    void inject(FeedDetailPresenter presenter);
 }

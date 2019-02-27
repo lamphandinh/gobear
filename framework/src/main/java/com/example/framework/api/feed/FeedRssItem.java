@@ -1,6 +1,8 @@
 package com.example.framework.api.feed;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 @Element(name = "item")
 public class FeedRssItem {
@@ -10,6 +12,6 @@ public class FeedRssItem {
     public String description;
     @Element(name = "link")
     public String detailUrl;
-    @Element(name = "media:thumbnail")
-    public String thumbnailUrl;
+    @Element(name = "thumbnail")
+    public FeedThumbnail thumbnail;
 }

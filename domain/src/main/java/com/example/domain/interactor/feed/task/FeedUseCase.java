@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.functions.Func1;
 import rx.functions.Func2;
 
 public class FeedUseCase extends BaseTask<List<Feed>> {

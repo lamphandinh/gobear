@@ -45,26 +45,31 @@ public class FeedRepositoryImpl implements FeedRepository {
 
     @Override
     public Observable<List<Feed>> getNewestFeedsFromServer() {
-        return feedApiService.getFeeds().map(new Func1<FeedResponse, List<Feed>>() {
+        return feedApiService.getFeed().map(new Func1<FeedResponse, List<Feed>>() {
             @Override
             public List<Feed> call(FeedResponse feedResponse) {
                 List<Feed> feeds = new ArrayList<>();
                 for (FeedRssItem item : feedResponse.channel.feedRssItemList) {
-                    feeds.add(new Feed(item.title, item.description, item.detailUrl, item.thumbnailUrl));
+                    feeds.add(new Feed(item.title, item.description, item.detailUrl, item.thumbnail.url));
                 }
                 return feeds;
             }
-        })
+        });
     }
 
     @Override
-    public Observable<Boolean> replaceAllLocalFeeds(List<Feed> feeds) {
-        gobearDatabase.FeedDao().deleteFeeds();
-        List<DBFeed> dbFeeds = new ArrayList<>();
-        for (Feed feed : feeds) {
-            dbFeeds.add(new DBFeed(feed.getTitle(), feed.getDescription(), feed.getDetailUrl(), feed.getThumbnailUrl()));
-        }
-        gobearDatabase.FeedDao().insertFeeds(dbFeeds);
-        return true;
+    public Observable<Boolean> replaceAllLocalFeeds(final List<Feed> feeds) {
+        return Observable.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                gobearDatabase.FeedDao().deleteFeeds();
+                List<DBFeed> dbFeeds = new ArrayList<>();
+                for (Feed feed : feeds) {
+                    dbFeeds.add(new DBFeed(feed.getTitle(), feed.getDescription(), feed.getDetailUrl(), feed.getThumbnailUrl()));
+                }
+                gobearDatabase.FeedDao().insertFeeds(dbFeeds.toArray(new DBFeed[dbFeeds.size()]));
+                return true;
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.example.framework.di.module;
 
-import com.example.framework.api.feed.FeedApiService;
+import com.example.framework.BuildConfig;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
@@ -16,6 +17,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
@@ -30,15 +32,10 @@ public class NetworkModule {
                 .retryOnConnectionFailure(true)
                 .readTimeout(30L, TimeUnit.SECONDS)
                 .writeTimeout(30L, TimeUnit.SECONDS)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request().newBuilder()
-                                .addHeader("", "")
-                                .build();
-                        return chain.proceed(request);
-                    }
-                });
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        if (BuildConfig.DEBUG) {
+            builder.addNetworkInterceptor(new StethoInterceptor());
+        }
         return builder.build();
     }
 
@@ -52,11 +49,5 @@ public class NetworkModule {
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(new Persister(new AnnotationStrategy())))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    FeedApiService provideFeedApiService(Retrofit retrofit) {
-        return retrofit.create(FeedApiService.class);
     }
 }
